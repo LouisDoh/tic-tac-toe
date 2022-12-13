@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
     return (
-        <button className = "square" onClick={props.onClick}>
+        <button style={props.winTile ? {background:'#00ff00'} : {background:'#fff'}} className = "square" onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -12,8 +12,15 @@ function Square(props) {
 
   class Board extends React.Component {
     renderSquare(i) {
-      return ( <Square 
+        let winTile = false;
+        for (let loopIter=0;loopIter<this.props.winTiles.length;loopIter++) {
+            if (this.props.winTiles[loopIter] === i) {
+                winTile = true;
+            }
+        }
+        return ( <Square 
         value={this.props.squares[i]}
+        winTile={winTile}
         onClick={() => this.props.onClick(i)}
         />
       );
@@ -51,6 +58,7 @@ function Square(props) {
             }],
             stepNumber:0,
             xIsNext:true,
+            winTiles:[],
         }
     }
     
@@ -62,19 +70,26 @@ function Square(props) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X':'O';
+        const winner = calculateWinner(squares);
+        let winningTiles = [];
+        if(winner) {
+            winningTiles = winner[1];
+            console.log('Win found')
+        }
         this.setState({
             history: history.concat([{
                 squares:squares,
             }]),
             stepNumber:history.length,
             xIsNext: !this.state.xIsNext,
+            winTiles:winningTiles,
         });
     }
 
     jumpTo(step) {
         this.setState({
             stepNumber:step,
-            xIsNext:(step%2) === 0
+            xIsNext:(step%2) === 0,
         });
     }
 
@@ -103,7 +118,7 @@ function Square(props) {
 
       let status;
       if (winner) {
-        status = "Winner: " + winner;
+        status = "Winner: " + winner[0];
       } else if (boardFull) {
         status = "It's a tie!"
       } else {
@@ -116,6 +131,7 @@ function Square(props) {
             <Board
                 squares={current.squares}
                 onClick={i => this.handleClick(i)}
+                winTiles={this.state.winTiles}
             />
           </div>
           <div className="game-info">
@@ -146,7 +162,7 @@ function Square(props) {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return [squares[a],lines[i]];
       }
     }
     return null;
