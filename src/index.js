@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
     return (
-        <button style={props.winTile ? {background:'#00ff00'} : {background:'#fff'}} className = "square" onClick={props.onClick}>
+        <button style={props.winTile ? {background:'#44ff44'} : {background:'#fff'}} className = "square" onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -74,7 +74,6 @@ function Square(props) {
         let winningTiles = [];
         if(winner) {
             winningTiles = winner[1];
-            console.log('Win found')
         }
         this.setState({
             history: history.concat([{
