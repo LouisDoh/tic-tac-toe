@@ -85,12 +85,18 @@ function Square(props) {
       const boardFull = boardFilled(current.squares);
 
       const moves = history.map((step,move) => {
+        let bold = false;
+        if (move === this.state.stepNumber) {
+            bold = true;
+        }
         const desc = move ?
             'Go to move #' + move :
             'Go to game start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button
+                    style={bold ? {fontWeight:'bold'} : {fontWeight:'normal'}} 
+                    onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
       });
