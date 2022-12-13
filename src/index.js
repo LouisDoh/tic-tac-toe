@@ -99,8 +99,17 @@ function Square(props) {
         if (move === this.state.stepNumber) {
             bold = true;
         }
+        let coOrds;
+        let x;
+        let y;
+        if(move > 0) {
+            coOrds = differenceBetween(history[move].squares, history[move-1].squares);
+            x = (coOrds%3) + 1;
+            y = (Math.floor(coOrds/3)) +1;
+        }
+
         const desc = move ?
-            'Go to move #' + move :
+            'Go to move #' + move +' ('+x+','+y+')':
             'Go to game start';
             return (
                 <li key={move}>
@@ -170,4 +179,24 @@ function Square(props) {
         }
     }
     return true;
+  }
+
+  function differenceBetween(listOne,listTwo) {
+    //we'll assume both lists are the same dimensions, and flat
+    if(listOne) {
+        if(listTwo) {
+            for(let i=0; i<listOne.length; i++) {
+                if(listOne[i] !== listTwo[i]) {
+                    return i;
+                }
+            }
+        } else {
+            for(let i=0; i<listOne.length; i++) {
+                if (listOne[i] === 'X') {
+                    return i;
+                }
+            }
+        }
+    }
+    return null;
   }
