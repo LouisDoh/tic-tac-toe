@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
     return (
-        <button classname = "square" onClick={props.onClick}>
+        <button className = "square" onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -37,7 +37,13 @@ function Square(props) {
     }
   
     render() {
-      const status = 'Next player: '+ (this.state.xIsNext ? 'X' : 'O');
+        const winner = calculateWinner(this.state.squares);
+        let status;
+        if (winner) {
+            status = "Winner: " + winner;
+        } else {
+            status = "Next player: " + (this.state.xIsNext ? 'X':'O');
+        }
   
       return (
         <div>
