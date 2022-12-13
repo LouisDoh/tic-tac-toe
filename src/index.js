@@ -82,6 +82,7 @@ function Square(props) {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
+      const boardFull = boardFilled(current.squares);
 
       const moves = history.map((step,move) => {
         const desc = move ?
@@ -97,6 +98,8 @@ function Square(props) {
       let status;
       if (winner) {
         status = "Winner: " + winner;
+      } else if (boardFull) {
+        status = "It's a tie!"
       } else {
         status = "Next player: " + (this.state.xIsNext ? 'X':'O');
       }
@@ -141,4 +144,13 @@ function Square(props) {
       }
     }
     return null;
+  }
+
+  function boardFilled(squares) {
+    for (let i=0; i < squares.length; i++) {
+        if(squares[i] === null) {
+            return false;
+        }
+    }
+    return true;
   }
