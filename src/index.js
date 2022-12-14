@@ -54,6 +54,7 @@ function Square(props) {
             stepNumber:0,
             xIsNext:true,
             winTiles:[],
+            ascending:true,
         }
     }
     
@@ -88,6 +89,12 @@ function Square(props) {
         });
     }
 
+    toggleAsc() {
+      this.setState({
+        ascending:!this.state.ascending,
+      })
+    }
+
     render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
@@ -120,6 +127,10 @@ function Square(props) {
             );
       });
 
+      if(!this.state.ascending) {
+        moves.reverse();
+      }
+
       let status;
       if (winner) {
         status = "Winner: " + winner[0];
@@ -140,6 +151,11 @@ function Square(props) {
           </div>
           <div className="game-info">
             <div>{status}</div>
+            <button 
+              className = "toggle" 
+                onClick={() => this.toggleAsc()}>
+                  Toggle Ascending/Descending
+            </button>
             <ol>{moves}</ol>
           </div>
         </div>
