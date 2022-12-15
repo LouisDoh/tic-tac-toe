@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 function Square(props) {
+    const id = "Square"+props.name;
     return (
-        <button style={props.winTile ? {background:'#44ff44'} : {background:'#fff'}} className = "square" onClick={props.onClick}>
+        <button id={id} style={props.winTile ? {background:'#44ff44'} : {background:'#fff'}} 
+        className = "square" 
+        onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -23,6 +26,7 @@ function Square(props) {
         value={this.props.squares[i]}
         winTile={winTile}
         onClick={() => this.props.onClick(i)}
+        name={i}
         />
       );
     }
